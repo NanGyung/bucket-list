@@ -4,7 +4,6 @@ import styled, { ThemeProvider } from 'styled-components/native';
 import { theme } from './theme';
 import Input from './components/Input';
 import Task from './components/Task';
-import DeleteTask from './components/DeleteTask';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -112,15 +111,18 @@ function App() {
     ])
   };
 
- const findCompleted = Object.values(tasks).map(item => item.completed);
  const findId = Object.values(tasks).map(item => item.id); 
 
+ //완료항목 전체삭제
   const _deleteAll = id => {
     const currentTasks = { ...tasks };
-       if (id == 'true') {
-         delete currentTasks[findId];
+    console.log(currentTasks);
+      for(const ele of id){
+        if(currentTasks[ele]['completed'] == true){
+          delete currentTasks[ele];
          _saveTasks(currentTasks);
-    }
+        }
+      }
   };
 
   const _toggleTask = id => {
@@ -175,7 +177,7 @@ function App() {
         </List>
           <Pressable 
             style={styles.pressable} 
-            onPressOut={() => _deleteAll(findCompleted)}
+            onPressOut={() => _deleteAll(findId)}
           >
             <Text style={styles.text}>
               완료항목 전체삭제
