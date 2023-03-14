@@ -174,17 +174,14 @@ function App() {
             deleteTask = {_deleteAll}  
           />
         ))} */}
-        {Object.values(tasks).map(item => (
           <Pressable 
-            key = {item.id}
             style={styles.pressable} 
-            onPressOut={_deleteAll(item.id)}
+            onPressOut={() => _deleteAll(tasks.id)}
           >
             <Text style={styles.text}>
               완료항목 전체삭제
             </Text>
           </Pressable>
-        ))}
 
       </Container>
     </ThemeProvider>
