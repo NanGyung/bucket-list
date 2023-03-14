@@ -92,6 +92,7 @@ function App() {
     };
     setNewTask('');
     _saveTasks({ ...tasks, ...newTaskObject });
+
   };
 
   const _deleteTask = id => {
@@ -111,11 +112,14 @@ function App() {
     ])
   };
 
+ const findCompleted = Object.values(tasks).map(item => item.completed);
+ const findId = Object.values(tasks).map(item => item.id); 
+
   const _deleteAll = id => {
     const currentTasks = { ...tasks };
-    if (currentTasks[id]['completed'] == 'true') {
-      delete currentTasks[id];
-      _saveTasks(currentTasks);
+       if (id == 'true') {
+         delete currentTasks[findId];
+         _saveTasks(currentTasks);
     }
   };
 
@@ -139,6 +143,7 @@ function App() {
     setNewTask('');
   };
 
+
   return (
     <ThemeProvider theme={theme}>
       <Container onLayout={onLayoutRootView}>
@@ -158,6 +163,7 @@ function App() {
           {Object.values(tasks)
             .reverse()
             .map(item => (
+              // console.log(item),
               <Task
                 key={item.id}
                 item={item}
@@ -167,16 +173,9 @@ function App() {
               />))
           }
         </List>
-        {/* {Object.values(tasks).map(item => (
-          <DeleteTask
-            key={item.id}
-            item = {item}
-            deleteTask = {_deleteAll}  
-          />
-        ))} */}
           <Pressable 
             style={styles.pressable} 
-            onPressOut={() => _deleteAll(tasks.id)}
+            onPressOut={() => _deleteAll(findCompleted)}
           >
             <Text style={styles.text}>
               완료항목 전체삭제
